@@ -91,5 +91,7 @@ void ui_menu_screen_init(void)
 
     lv_obj_add_event_cb(ui_mp3, ui_event_mp3, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_weather, ui_event_weather, LV_EVENT_ALL, NULL);
+    // lv_obj_add_event_cb(ui_camere, camera_event_handler, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_camere, camera_event_handler, LV_EVENT_CLICKED, NULL);
 
 }

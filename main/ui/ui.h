@@ -83,7 +83,9 @@ extern lv_obj_t * ui_ImgButton2;
 
 // EVENTS
 
-extern lv_obj_t * ui____initial_actions0;
+//camera_screen
+extern lv_obj_t * ui_camera_screen;
+void camera_event_handler(lv_event_t * e);
 
 // IMAGES AND IMAGE SETS
 LV_IMG_DECLARE(ui_img_sls_logo_png);    // assets/sls_logo.png

@@ -31,3 +31,5 @@ SET(SOURCES components/ui_comp_alarm_comp.c
     fonts/ui_font_Number.c)
 
 add_library(ui ${SOURCES})
+
+target_include_directories(ui PRIVATE ../../managed_components)

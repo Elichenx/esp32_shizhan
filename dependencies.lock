@@ -1,4 +1,11 @@
 dependencies:
+  espressif/esp32-camera:
+    component_hash: c3eb05fbeeae884a23bed9b17d48d5f0da8872beadae0c0e747d2fbea6094f06
+    dependencies: []
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 2.0.15
   espressif/esp_lcd_touch:
     component_hash: 779b4ba2464a3ae85681e4b860caa5fdc35801458c23f3039ee761bae7f442a4
     dependencies:
@@ -49,10 +56,11 @@ dependencies:
       type: service
     version: 8.3.11
 direct_dependencies:
+- espressif/esp32-camera
 - espressif/esp_lcd_touch_ft5x06
 - espressif/esp_lvgl_port
 - idf
 - lvgl/lvgl
-manifest_hash: 2749f9984d8793548630098ec4c9c240c3dcd1932dd5ca9735fda6284b61985d
+manifest_hash: 70cfa8750a8d40fcb6efd76dd8b348147941e03a8e522b6641f5120b8c1fd13e
 target: esp32s3
 version: 2.0.0

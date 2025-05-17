@@ -5,6 +5,8 @@
 
 #include "ui.h"
 #include "ui_helpers.h"
+#include "esp32_s3_szp.h"
+int icon_flag; // 标记现在进入哪个应用 在主界面时为0
 
 ///////////////////// VARIABLES ////////////////////
 void upanim_Animation(lv_obj_t * TargetObject, int delay);
@@ -74,6 +76,10 @@ lv_obj_t * ui_Scrolldots4;
 void ui_event_ImgButton2(lv_event_t * e);
 lv_obj_t * ui_ImgButton2;
 // CUSTOM VARIABLES
+
+//Screen: ui_camere
+lv_obj_t * ui_camere;
+lv_obj_t * img_camera;
 
 // EVENTS
 lv_obj_t * ui____initial_actions0;
@@ -339,6 +345,77 @@ void ui_event_ImgButton2(lv_event_t * e)
     }
 }
 
+// 摄像头图像
+lv_img_dsc_t img_camera_dsc = {
+  .header.cf = LV_IMG_CF_TRUE_COLOR,
+  .header.always_zero = 0,
+  .header.reserved = 0,
+  .header.w = 320,
+  .header.h = 240,
+  .data_size = 240*320*2,
+};
+
+// 摄像头处理任务
+static void task_process_camera(void *arg)
+{   
+    while (icon_flag == 4)
+    {
+    camera_fb_t *frame = esp_camera_fb_get();
+    img_camera_dsc.data = frame->buf;
+    lv_img_set_src(img_camera, &img_camera_dsc);
+    esp_camera_fb_return(frame);
+    }
+    esp_camera_deinit(); // 取消初始化摄像头
+    lvgl_port_lock(0);
+    lv_obj_del(ui_camere); // 删除摄像头画布
+    lvgl_port_unlock();
+    dvp_pwdn(1); // 摄像头进入掉电模式
+    vTaskDelete(NULL);
+}
+
+
+// 进入摄像头应用
+void camera_event_handler(lv_event_t * e)
+{
+    bsp_camera_init(); // 摄像头初始化
+    // 创建一个界面对象
+    static lv_style_t style;
+    lv_style_init(&style);
+    lv_style_set_radius(&style, 10);  
+    lv_style_set_bg_opa( &style, LV_OPA_COVER );
+    lv_style_set_bg_color(&style, lv_color_hex(0xcccccc));
+    lv_style_set_border_width(&style, 0);
+    lv_style_set_pad_all(&style, 0);
+    lv_style_set_width(&style, 320);  
+    lv_style_set_height(&style, 240); 
+
+    ui_camere = lv_obj_create(lv_scr_act());
+    lv_obj_add_style(ui_camere, &style, 0);
+
+    img_camera = lv_img_create(ui_camere);
+    lv_obj_set_pos(img_camera, 0, 0);
+    lv_obj_set_size(img_camera, 320, 240);
+
+    // 创建返回按钮
+    // lv_obj_t *btn_back = lv_btn_create(icon_in_obj);
+    // lv_obj_align(btn_back, LV_ALIGN_TOP_LEFT, 0, 0);
+    // lv_obj_set_size(btn_back, 60, 30);
+    // lv_obj_set_style_border_width(btn_back, 0, 0); // 设置边框宽度
+    // lv_obj_set_style_pad_all(btn_back, 0, 0);  // 设置间隙
+    // lv_obj_set_style_bg_opa(btn_back, LV_OPA_TRANSP, LV_PART_MAIN); // 背景透明
+    // lv_obj_set_style_shadow_opa(btn_back, LV_OPA_TRANSP, LV_PART_MAIN); // 阴影透明
+    // lv_obj_add_event_cb(btn_back, btn_camback_cb, LV_EVENT_CLICKED, NULL); // 添加按键处理函数
+
+    // lv_obj_t *label_back = lv_label_create(btn_back); 
+    // lv_label_set_text(label_back, LV_SYMBOL_LEFT);  // 按键上显示左箭头符号
+    // lv_obj_set_style_text_font(label_back, &lv_font_montserrat_20, 0);
+    // lv_obj_set_style_text_color(label_back, lv_color_hex(0xffffff), 0); 
+    // lv_obj_align(label_back, LV_ALIGN_CENTER, -10, 0);
+
+    icon_flag = 4; // 标记已经进入第四个应用
+
+    xTaskCreatePinnedToCore(task_process_camera, "task_process_camera", 4 * 1024, NULL, 5, NULL, 1);
+}
 ///////////////////// SCREENS ////////////////////
 
 void ui_init(void)

@@ -20,6 +20,8 @@ void app_main(void)
     pca9557_init();  // IO扩展芯片初始化
 
     bsp_lvgl_start(); // 初始化液晶屏lvgl接口
+    // bsp_camera_init(); // 摄像头初始化
+    // app_camera_lcd();
     app_lvgl_display();
     /* 下面5个demos 只打开1个运行 */
     // lv_demo_benchmark(); 
