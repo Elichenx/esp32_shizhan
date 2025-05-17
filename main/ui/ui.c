@@ -6,8 +6,8 @@
 #include "ui.h"
 #include "ui_helpers.h"
 #include "esp32_s3_szp.h"
-int icon_flag; // 标记现在进入哪个应用 在主界面时为0
 
+int icon_flag; // 标记现在进入哪个应用 在主界面时为0
 ///////////////////// VARIABLES ////////////////////
 void upanim_Animation(lv_obj_t * TargetObject, int delay);
 void hour_Animation(lv_obj_t * TargetObject, int delay);
@@ -29,7 +29,6 @@ lv_obj_t * ui_SLS_Logo;
 // SCREEN: ui_menu
 void ui_menu_screen_init(void);
 lv_obj_t * ui_menu;
-lv_obj_t * ui_Scrolldots;
 lv_obj_t * ui_Panel1;
 lv_obj_t * ui_wifi;
 lv_obj_t * ui_camere;
@@ -39,6 +38,15 @@ lv_obj_t * ui_sdcard;
 lv_obj_t * ui_bluetooth;
 void ui_event_weather(lv_event_t * e);
 lv_obj_t * ui_weather;
+lv_obj_t * ui_Labelweather;
+lv_obj_t * ui_LabelSD;
+lv_obj_t * ui_LabelMP3;
+lv_obj_t * ui_LabelCamera;
+lv_obj_t * ui_LabelBle;
+lv_obj_t * ui_LabelWIFI;
+lv_obj_t * ui_Panel2;
+lv_obj_t * ui_Image5;
+lv_obj_t * ui_Image6;
 // CUSTOM VARIABLES
 
 
@@ -50,10 +58,12 @@ lv_obj_t * ui_Play_btn;
 lv_obj_t * ui_Play;
 lv_obj_t * ui_Backward;
 lv_obj_t * ui_Forward;
-lv_obj_t * ui_Scrolldots3;
 lv_obj_t * ui_Dropdown1;
 void ui_event_back(lv_event_t * e);
 lv_obj_t * ui_back;
+lv_obj_t * ui_Bar2;
+lv_obj_t * ui_Image3;
+lv_obj_t * ui_Image4;
 // CUSTOM VARIABLES
 
 
@@ -72,22 +82,22 @@ lv_obj_t * ui_w3;
 lv_obj_t * ui_W1_Num;
 lv_obj_t * ui_W2_Num;
 lv_obj_t * ui_W3_Num;
-lv_obj_t * ui_Scrolldots4;
 void ui_event_ImgButton2(lv_event_t * e);
 lv_obj_t * ui_ImgButton2;
 // CUSTOM VARIABLES
 
-//Screen: ui_camere
-lv_obj_t * ui_camere;
+// SCREEN: ui_camera_Icons
+lv_obj_t * ui_camera;
 lv_obj_t * img_camera;
+lv_obj_t * ui_ImgButton3;
 
 // EVENTS
 lv_obj_t * ui____initial_actions0;
 
 // IMAGES AND IMAGE SETS
 const lv_img_dsc_t * ui_imgset_chatbox[1] = {&ui_img_chatbox2_png};
-const lv_img_dsc_t * ui_imgset_weather_[3] = {&ui_img_weather_1_png, &ui_img_weather_2_png, &ui_img_weather_3_png};
 const lv_img_dsc_t * ui_imgset_mp[1] = {&ui_img_mp3_png};
+const lv_img_dsc_t * ui_imgset_weather_[3] = {&ui_img_weather_1_png, &ui_img_weather_2_png, &ui_img_weather_3_png};
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
 #if LV_COLOR_DEPTH != 16
@@ -330,9 +340,6 @@ void ui_event_Weather(lv_event_t * e)
         upanim_Animation(ui_Cloud, 100);
         upanim_Animation(ui_Pary_Cloud, 200);
         upanim_Animation(ui_Celsius, 300);
-        upanim_Animation(ui_New_York, 400);
-        upanim_Animation(ui_Weather_Icons, 300);
-        scrolldot_Animation(ui_Scrolldots4, 0);
     }
 }
 
@@ -344,7 +351,6 @@ void ui_event_ImgButton2(lv_event_t * e)
         _ui_screen_change(&ui_menu, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_menu_screen_init);
     }
 }
-
 // 摄像头图像
 lv_img_dsc_t img_camera_dsc = {
   .header.cf = LV_IMG_CF_TRUE_COLOR,
@@ -367,55 +373,27 @@ static void task_process_camera(void *arg)
     }
     esp_camera_deinit(); // 取消初始化摄像头
     lvgl_port_lock(0);
-    lv_obj_del(ui_camere); // 删除摄像头画布
+    lv_obj_del(ui_camera); // 删除摄像头画布
     lvgl_port_unlock();
     dvp_pwdn(1); // 摄像头进入掉电模式
     vTaskDelete(NULL);
 }
 
-
-// 进入摄像头应用
 void camera_event_handler(lv_event_t * e)
 {
     bsp_camera_init(); // 摄像头初始化
-    // 创建一个界面对象
-    static lv_style_t style;
-    lv_style_init(&style);
-    lv_style_set_radius(&style, 10);  
-    lv_style_set_bg_opa( &style, LV_OPA_COVER );
-    lv_style_set_bg_color(&style, lv_color_hex(0xcccccc));
-    lv_style_set_border_width(&style, 0);
-    lv_style_set_pad_all(&style, 0);
-    lv_style_set_width(&style, 320);  
-    lv_style_set_height(&style, 240); 
-
-    ui_camere = lv_obj_create(lv_scr_act());
-    lv_obj_add_style(ui_camere, &style, 0);
-
-    img_camera = lv_img_create(ui_camere);
-    lv_obj_set_pos(img_camera, 0, 0);
-    lv_obj_set_size(img_camera, 320, 240);
-
-    // 创建返回按钮
-    // lv_obj_t *btn_back = lv_btn_create(icon_in_obj);
-    // lv_obj_align(btn_back, LV_ALIGN_TOP_LEFT, 0, 0);
-    // lv_obj_set_size(btn_back, 60, 30);
-    // lv_obj_set_style_border_width(btn_back, 0, 0); // 设置边框宽度
-    // lv_obj_set_style_pad_all(btn_back, 0, 0);  // 设置间隙
-    // lv_obj_set_style_bg_opa(btn_back, LV_OPA_TRANSP, LV_PART_MAIN); // 背景透明
-    // lv_obj_set_style_shadow_opa(btn_back, LV_OPA_TRANSP, LV_PART_MAIN); // 阴影透明
-    // lv_obj_add_event_cb(btn_back, btn_camback_cb, LV_EVENT_CLICKED, NULL); // 添加按键处理函数
-
-    // lv_obj_t *label_back = lv_label_create(btn_back); 
-    // lv_label_set_text(label_back, LV_SYMBOL_LEFT);  // 按键上显示左箭头符号
-    // lv_obj_set_style_text_font(label_back, &lv_font_montserrat_20, 0);
-    // lv_obj_set_style_text_color(label_back, lv_color_hex(0xffffff), 0); 
-    // lv_obj_align(label_back, LV_ALIGN_CENTER, -10, 0);
-
+    ui_camera_screen_init(); // 初始化摄像头画布
     icon_flag = 4; // 标记已经进入第四个应用
-
     xTaskCreatePinnedToCore(task_process_camera, "task_process_camera", 4 * 1024, NULL, 5, NULL, 1);
 }
+
+void ui_event_ImgButton3(lv_event_t * e)
+{     
+    icon_flag = 0; 
+    // vTaskDelay(pdMS_TO_TICKS(100));
+    _ui_screen_change(&ui_menu, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_menu_screen_init);
+}
+
 ///////////////////// SCREENS ////////////////////
 
 void ui_init(void)

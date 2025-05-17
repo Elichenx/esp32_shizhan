@@ -1,12 +1,10 @@
-SET(SOURCES components/ui_comp_alarm_comp.c
-    components/ui_comp_clock_dot.c
-    components/ui_comp_scrolldots.c
-    components/ui_comp_small_label.c
+SET(SOURCES components/ui_comp_small_label.c
     components/ui_comp.c
     screens/ui_Splash.c
     screens/ui_menu.c
     screens/ui_Music_Player.c
     screens/ui_Weather.c
+    screens/ui_camera.c
     ui.c
     components/ui_comp_hook.c
     ui_helpers.c
@@ -18,18 +16,19 @@ SET(SOURCES components/ui_comp_alarm_comp.c
     images/ui_img_sd_png.c
     images/ui_img_bluetooth_png.c
     images/ui_img_weather_png.c
+    images/ui_img_bluesamll_png.c
+    images/ui_img_wifi_small_png.c
     images/ui_img_album_png.c
     images/ui_img_play_png.c
     images/ui_img_backward_png.c
     images/ui_img_forward_png.c
     images/ui_img_back_png.c
+    images/ui_img_volumecross_png.c
+    images/ui_img_volumehigh_png.c
     images/ui_img_cloud_png.c
     images/ui_img_weather_1_png.c
     images/ui_img_weather_2_png.c
     images/ui_img_weather_3_png.c
-    images/ui_img_chatbox2_png.c
-    fonts/ui_font_Number.c)
+    images/ui_img_chatbox2_png.c)
 
 add_library(ui ${SOURCES})
-
-target_include_directories(ui PRIVATE ../../managed_components)

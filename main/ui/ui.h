@@ -35,7 +35,6 @@ extern lv_obj_t * ui_SLS_Logo;
 // SCREEN: ui_menu
 void ui_menu_screen_init(void);
 extern lv_obj_t * ui_menu;
-extern lv_obj_t * ui_Scrolldots;
 extern lv_obj_t * ui_Panel1;
 extern lv_obj_t * ui_wifi;
 extern lv_obj_t * ui_camere;
@@ -45,6 +44,15 @@ extern lv_obj_t * ui_sdcard;
 extern lv_obj_t * ui_bluetooth;
 void ui_event_weather(lv_event_t * e);
 extern lv_obj_t * ui_weather;
+extern lv_obj_t * ui_Labelweather;
+extern lv_obj_t * ui_LabelSD;
+extern lv_obj_t * ui_LabelMP3;
+extern lv_obj_t * ui_LabelCamera;
+extern lv_obj_t * ui_LabelBle;
+extern lv_obj_t * ui_LabelWIFI;
+extern lv_obj_t * ui_Panel2;
+extern lv_obj_t * ui_Image5;
+extern lv_obj_t * ui_Image6;
 // CUSTOM VARIABLES
 
 // SCREEN: ui_Music_Player
@@ -55,10 +63,12 @@ extern lv_obj_t * ui_Play_btn;
 extern lv_obj_t * ui_Play;
 extern lv_obj_t * ui_Backward;
 extern lv_obj_t * ui_Forward;
-extern lv_obj_t * ui_Scrolldots3;
 extern lv_obj_t * ui_Dropdown1;
 void ui_event_back(lv_event_t * e);
 extern lv_obj_t * ui_back;
+extern lv_obj_t * ui_Bar2;
+extern lv_obj_t * ui_Image3;
+extern lv_obj_t * ui_Image4;
 // CUSTOM VARIABLES
 
 // SCREEN: ui_Weather
@@ -76,16 +86,22 @@ extern lv_obj_t * ui_w3;
 extern lv_obj_t * ui_W1_Num;
 extern lv_obj_t * ui_W2_Num;
 extern lv_obj_t * ui_W3_Num;
-extern lv_obj_t * ui_Scrolldots4;
 void ui_event_ImgButton2(lv_event_t * e);
 extern lv_obj_t * ui_ImgButton2;
 // CUSTOM VARIABLES
 
 // EVENTS
 
-//camera_screen
-extern lv_obj_t * ui_camera_screen;
+//Screem:Camera
+
+extern lv_obj_t * ui_camera;
+extern lv_obj_t * img_camera;
+extern lv_obj_t * ui_ImgButton3;
+void ui_event_ImgButton3(lv_event_t * e);
+void ui_camera_screen_init(void);
 void camera_event_handler(lv_event_t * e);
+
+extern lv_obj_t * ui____initial_actions0;
 
 // IMAGES AND IMAGE SETS
 LV_IMG_DECLARE(ui_img_sls_logo_png);    // assets/sls_logo.png
@@ -96,19 +112,20 @@ LV_IMG_DECLARE(ui_img_mp3_png);    // assets/MP3.png
 LV_IMG_DECLARE(ui_img_sd_png);    // assets/SD.png
 LV_IMG_DECLARE(ui_img_bluetooth_png);    // assets/bluetooth.png
 LV_IMG_DECLARE(ui_img_weather_png);    // assets/weather.png
+LV_IMG_DECLARE(ui_img_bluesamll_png);    // assets/bluesamll.png
+LV_IMG_DECLARE(ui_img_wifi_small_png);    // assets/wifi_small.png
 LV_IMG_DECLARE(ui_img_album_png);    // assets/album.png
 LV_IMG_DECLARE(ui_img_play_png);    // assets/play.png
 LV_IMG_DECLARE(ui_img_backward_png);    // assets/backward.png
 LV_IMG_DECLARE(ui_img_forward_png);    // assets/forward.png
 LV_IMG_DECLARE(ui_img_back_png);    // assets/back.png
+LV_IMG_DECLARE(ui_img_volumecross_png);    // assets/volumeCross.png
+LV_IMG_DECLARE(ui_img_volumehigh_png);    // assets/volumeHigh.png
 LV_IMG_DECLARE(ui_img_cloud_png);    // assets/cloud.png
 LV_IMG_DECLARE(ui_img_weather_1_png);    // assets/weather_1.png
 LV_IMG_DECLARE(ui_img_weather_2_png);    // assets/weather_2.png
 LV_IMG_DECLARE(ui_img_weather_3_png);    // assets/weather_3.png
 LV_IMG_DECLARE(ui_img_chatbox2_png);    // assets/chatbox2.png
-
-// FONTS
-LV_FONT_DECLARE(ui_font_Number);
 
 // UI INIT
 void ui_init(void);
