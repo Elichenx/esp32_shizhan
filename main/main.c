@@ -3,14 +3,16 @@
 #include "logo_en_240x240_lcd.h"
 
 #include "demos/lv_demos.h"
-#include "ui/ui.h"
+#include "guider/generated/gui_guider.h"
+#include "guider/custom/custom.h"
 
+lv_ui guider_ui;
 void app_lvgl_display(void)
 {
     lvgl_port_lock(0);
 
-    ui_init();
-    
+    setup_ui(&guider_ui);
+
     lvgl_port_unlock();
 
 }
