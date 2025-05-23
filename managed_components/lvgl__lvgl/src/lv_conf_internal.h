@@ -1169,7 +1169,7 @@
     #ifdef CONFIG_LV_FONT_SIMSUN_16_CJK
         #define LV_FONT_SIMSUN_16_CJK CONFIG_LV_FONT_SIMSUN_16_CJK
     #else
-        #define LV_FONT_SIMSUN_16_CJK            0  /*1000 most common CJK radicals*/
+        #define LV_FONT_SIMSUN_16_CJK            1  /*1000 most common CJK radicals*/
     #endif
 #endif
 
