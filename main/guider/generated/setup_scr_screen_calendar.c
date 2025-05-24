@@ -34,12 +34,12 @@ void setup_scr_screen_calendar(lv_ui *ui)
     ui->screen_calendar_calendar = lv_calendar_create(ui->screen_calendar);
     screen_calendar_calendar_today.year = 2025;
     screen_calendar_calendar_today.month = 5;
-    screen_calendar_calendar_today.day = 23;
+    screen_calendar_calendar_today.day = 24;
     lv_calendar_set_today_date(ui->screen_calendar_calendar, screen_calendar_calendar_today.year, screen_calendar_calendar_today.month, screen_calendar_calendar_today.day);
     lv_calendar_set_showed_date(ui->screen_calendar_calendar, screen_calendar_calendar_today.year, screen_calendar_calendar_today.month);
     screen_calendar_calendar_highlihted_days[0].year = 2025;
     screen_calendar_calendar_highlihted_days[0].month = 5;
-    screen_calendar_calendar_highlihted_days[0].day = 24;
+    screen_calendar_calendar_highlihted_days[0].day = 25;
     lv_calendar_set_highlighted_dates(ui->screen_calendar_calendar, screen_calendar_calendar_highlihted_days, 1);
     lv_obj_t *screen_calendar_calendar_header = lv_calendar_header_arrow_create(ui->screen_calendar_calendar);
     lv_calendar_t *screen_calendar_calendar = (lv_calendar_t *)ui->screen_calendar_calendar;

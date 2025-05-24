@@ -261,4 +261,6 @@ void setup_scr_screen_setting(lv_ui *ui)
     //Update current screen layout.
     lv_obj_update_layout(ui->screen_setting);
 
+    //Init events for screen.
+    events_init_screen_setting(ui);
 }

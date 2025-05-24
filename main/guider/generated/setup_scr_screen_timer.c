@@ -796,4 +796,6 @@ void setup_scr_screen_timer(lv_ui *ui)
     //Update current screen layout.
     lv_obj_update_layout(ui->screen_timer);
 
+    //Init events for screen.
+    events_init_screen_timer(ui);
 }
